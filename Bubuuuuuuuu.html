@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For Bubu </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Poppins',sans-serif;
+  background:linear-gradient(180deg,#ffe4f0,#ffd1e8);
+  text-align:center;
+  overflow:hidden;
+}
+
+.scene{
+  display:none;
+  height:100vh;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  animation:fadeIn 1s ease;
+}
+
+.scene.active{display:flex}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.card{
+  background:rgba(255,255,255,0.75);
+  backdrop-filter:blur(12px);
+  padding:40px 30px;
+  border-radius:30px;
+  max-width:90%;
+  box-shadow:0 30px 70px rgba(0,0,0,0.25);
+}
+
+h2,h3{
+  font-family:'Playfair Display',serif;
+  color:#b30059;
+}
+
+p{
+  font-size:1.15rem;
+  line-height:1.7;
+  color:#4a0033;
+}
+
+button{
+  margin-top:25px;
+  padding:14px 36px;
+  border:none;
+  border-radius:30px;
+  background:linear-gradient(135deg,#ff4f8b,#ff82b2);
+  color:white;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+input{
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ccc;
+  text-align:center;
+  font-size:1rem;
+  margin-top:15px;
+}
+
+.scroll{
+  display:none;
+  margin-top:25px;
+  padding:25px;
+  background:#ffe4ec;
+  border-radius:20px;
+  animation:fadeIn 1s ease;
+}
+
+#timer{
+  font-size:1.4rem;
+  color:#b30059;
+  margin-top:15px;
+}
+
+#more{
+  margin-top:25px;
+  font-size:1.2rem;
+  color:#4a0033;
+}
+
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+.popup div{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="song">
+  <source src="PASTE_SONG_LINK_HERE" type="audio/mpeg">
+</audio>
+
+<!-- Scene 1 -->
+<div class="scene active" id="s1">
+  <div class="card">
+    <h2>My Bubu </h2>
+    <p>I made this little place just for you</p>
+    <button onclick="go(1)">Continue</button>
+  </div>
+</div>
+
+<!-- Scene 2 -->
+<div class="scene" id="s2">
+  <div class="card">
+    <p>You make my world soft, pink, and calm </p>
+    <button onclick="go(2)">Next</button>
+  </div>
+</div>
+
+<!-- Scene 3 -->
+<div class="scene" id="s3">
+  <div class="card">
+    <h3>Secret Scroll </h3>
+    <p>Only you can open this</p>
+
+    <input id="pass" placeholder="Enter password" oninput="checkPass()">
+
+    <div class="scroll" id="scroll">
+      <p>
+        My piglet…   
+        You don’t even know how much happiness you bring into my life.  
+        This scroll is just a reminder of how precious you are to me.
+      </p>
+      <button onclick="go(3)">Continue </button>
+    </div>
+  </div>
+</div>
+
+<!-- Scene 4 -->
+<div class="scene" id="s4">
+  <div class="card">
+    <h3>Will you be my Valentine? </h3>
+    <button onclick="yes()">Yes </button>
+    <button onclick="notAllowed()">No </button>
+  </div>
+</div>
+
+<!-- Scene 5 -->
+<div class="scene" id="s5">
+  <div class="card">
+    <p>
+      Bubu…  
+      I love you more than words can ever say   
+      You are my comfort, my smile, my safe place.
+    </p>
+    <button onclick="go(5)">Continue </button>
+  </div>
+</div>
+
+<!-- Scene 6 -->
+<div class="scene" id="s6">
+  <div class="card">
+    <h3>25 September 2025 </h3>
+    <p id="timer"></p>
+    <p id="more"></p>
+  </div>
+</div>
+
+<div class="popup" id="popup">
+  <div>
+    <p> Not allowed </p>
+    <button onclick="popup.style.display='none'">Okay</button>
+  </div>
+</div>
+
+<script>
+function go(n){
+  document.getElementById("s"+n).classList.remove("active");
+  document.getElementById("s"+(n+1)).classList.add("active");
+}
+
+function checkPass(){
+  const input = document.getElementById("pass").value;
+  if(input === "25925"){
+    document.getElementById("scroll").style.display = "block";
+  }
+}
+
+function notAllowed(){
+  popup.style.display="flex";
+}
+
+function yes(){
+  document.getElementById("song").play();
+  go(4);
+}
+
+/* countdown */
+const target=new Date("Sep 25, 2025 00:00:00").getTime();
+setInterval(()=>{
+  const d=target-Date.now();
+  timer.innerText=
+    Math.floor(d/86400000)+" days "+
+    Math.floor(d%86400000/3600000)+" hrs "+
+    Math.floor(d%3600000/60000)+" min "+
+    Math.floor(d%60000/1000)+" sec";
+},1000);
+
+/* typing */
+const txt="More to come… ";
+let i=0;
+setInterval(()=>{
+  if(i<txt.length){
+    more.innerText+=txt[i++];
+  }
+},150);
+</script>
+
+</body>
+</html>
